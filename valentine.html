@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+        }
+
+        /* First Page - The Question */
+        #question-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: opacity 1s ease;
+        }
+
+        #question-page.fade-out {
+            opacity: 0;
+        }
+
+        .hearts-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            color: rgba(255, 255, 255, 0.3);
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .question-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            animation: slideIn 1s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: #764ba2;
+            font-size: 42px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-text {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .signature {
+            font-style: italic;
+            color: #667eea;
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #yes-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        #yes-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4);
+        }
+
+        #no-btn {
+            background: #ddd;
+            color: #666;
+        }
+
+        #no-btn:hover {
+            background: #ccc;
+        }
+
+        /* Second Page - The Message */
+        #message-page {
+            display: none;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            position: relative;
+            overflow-y: auto;
+        }
+
+        #message-page.show {
+            display: block;
+            animation: fadeIn 2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .rose-petals {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .petal {
+            position: absolute;
+            font-size: 40px;
+            animation: fall 10s infinite linear;
+            opacity: 0.7;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -10%;
+                transform: translateX(0) rotate(0deg);
+            }
+            100% {
+                top: 110%;
+                transform: translateX(100px) rotate(360deg);
+            }
+        }
+
+        .message-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            animation: heartbeat 2s ease-in-out;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10% { transform: scale(1.05); }
+            20% { transform: scale(1); }
+            30% { transform: scale(1.05); }
+            40% { transform: scale(1); }
+        }
+
+        .message-box h2 {
+            color: #f5576c;
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-text {
+            font-size: 20px;
+            line-height: 2;
+            color: #333;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .message-text p {
+            margin-bottom: 25px;
+        }
+
+        .closing {
+            text-align: right;
+            font-size: 24px;
+            color: #f5576c;
+            margin-top: 40px;
+            font-style: italic;
+        }
+
+        .big-heart {
+            text-align: center;
+            font-size: 80px;
+            margin: 30px 0;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <!-- First Page: The Question -->
+    <div id="question-page">
+        <div class="hearts-background">
+            <div class="heart" style="left: 10%; animation-delay: 0s;">❤️</div>
+            <div class="heart" style="left: 20%; animation-delay: 1s;">💕</div>
+            <div class="heart" style="left: 30%; animation-delay: 2s;">💖</div>
+            <div class="heart" style="left: 40%; animation-delay: 0.5s;">❤️</div>
+            <div class="heart" style="left: 50%; animation-delay: 1.5s;">💕</div>
+            <div class="heart" style="left: 60%; animation-delay: 2.5s;">💖</div>
+            <div class="heart" style="left: 70%; animation-delay: 0.8s;">❤️</div>
+            <div class="heart" style="left: 80%; animation-delay: 1.8s;">💕</div>
+            <div class="heart" style="left: 90%; animation-delay: 2.8s;">💖</div>
+        </div>
+
+        <div class="question-container">
+            <h1>💝 Valentine's Day 💝</h1>
+            <div class="question-text">
+                <p>Will you be my Valentine?</p>
+                <p>I have something special to tell you...</p>
+            </div>
+            <div class="signature">~ From Carino 💕</div>
+            <div class="buttons">
+                <button id="yes-btn">Yes! 💖</button>
+                <button id="no-btn">No</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Page: The Romantic Message -->
+    <div id="message-page">
+        <div class="rose-petals">
+            <div class="petal" style="left: 5%; animation-delay: 0s;">🌹</div>
+            <div class="petal" style="left: 15%; animation-delay: 2s;">🌹</div>
+            <div class="petal" style="left: 25%; animation-delay: 4s;">🌹</div>
+            <div class="petal" style="left: 35%; animation-delay: 1s;">🌹</div>
+            <div class="petal" style="left: 45%; animation-delay: 3s;">🌹</div>
+            <div class="petal" style="left: 55%; animation-delay: 5s;">🌹</div>
+            <div class="petal" style="left: 65%; animation-delay: 1.5s;">🌹</div>
+            <div class="petal" style="left: 75%; animation-delay: 3.5s;">🌹</div>
+            <div class="petal" style="left: 85%; animation-delay: 5.5s;">🌹</div>
+            <div class="petal" style="left: 95%; animation-delay: 2.5s;">🌹</div>
+        </div>
+
+        <div class="message-container">
+            <div class="message-box">
+                <h2>My Dearest Valentine 💕</h2>
+                
+                <div class="message-text">
+                    <p>From the moment you came into my life, everything changed. You brought color to my world, warmth to my heart, and a smile to my face that just won't go away.</p>
+
+                    <p>Every day with you feels like a gift. The way you laugh, the way you care, the way you make even the ordinary moments feel extraordinary—it all reminds me how incredibly lucky I am to have you by my side.</p>
+
+                    <p>You are my sunshine on cloudy days, my comfort when things get tough, and my greatest source of happiness. When I look at you, I see my best friend, my partner, and the person I want to share every moment with.</p>
+
+                    <p>This Valentine's Day, I want you to know that you are cherished beyond words, loved more than you could ever imagine, and appreciated for every little thing you do. You make my life infinitely better just by being in it.</p>
+
+                    <p>Thank you for being you, for choosing me, and for making every day feel like Valentine's Day. I promise to keep loving you, supporting you, and making you smile for as long as you'll have me.</p>
+
+                    <div class="big-heart">❤️</div>
+
+                    <p>You are my forever Valentine, today and always.</p>
+                </div>
+
+                <div class="closing">
+                    With all my love,<br>
+                    Carino 💖
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const questionPage = document.getElementById('question-page');
+        const messagePage = document.getElementById('message-page');
+
+        yesBtn.addEventListener('click', function() {
+            questionPage.classList.add('fade-out');
+            
+            setTimeout(function() {
+                questionPage.style.display = 'none';
+                messagePage.classList.add('show');
+            }, 1000);
+        });
+
+        // Make the "No" button move away when hovered
+        noBtn.addEventListener('mouseenter', function() {
+            const randomX = Math.random() * (window.innerWidth - 200);
+            const randomY = Math.random() * (window.innerHeight - 100);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        });
+    </script>
+</body>
+</html>
